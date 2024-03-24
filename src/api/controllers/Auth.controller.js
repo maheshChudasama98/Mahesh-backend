@@ -4,14 +4,13 @@ const bcrypt = require('bcrypt');
 const db = require("../Models")
 
 const secureKey = process.env.TOKEN_SECURE_KEY
-const message = require("../constants/messages")
+const MESSAGES = require("../constants/messages")
 const emailActions = require("../../helpers/Email.helper")
 
 const UserModel = db.UserModel
 const UserTypesModel = db.UserTypesModel
 
 // ------------ || Login Controller || ------------ //
-
 const loginController = async (req, res) => {
     try {
         const payloadBody = req.body
@@ -54,14 +53,14 @@ const loginController = async (req, res) => {
                             status: true,
                             token: token,
                             data: userData,
-                            message: message.LOGIN_SUCCESS
+                            message: MESSAGES.LOGIN_SUCCESS
                         })
                     });
                 }
                 else {
                     return res.status(200).send({
                         status: false,
-                        message: message.PASSWORD_NOT_VALID
+                        message: MESSAGES.PASSWORD_NOT_VALID
                     })
                 }
             })
@@ -69,7 +68,7 @@ const loginController = async (req, res) => {
         } else {
             return res.status(200).send({
                 status: false,
-                message: message.USER_NOT_VALID
+                message: MESSAGES.USER_NOT_VALID
             })
         }
 
@@ -110,7 +109,7 @@ const forgotPasswordController = async (req, res) => {
                 { where: { userId: targetUser.userId } }).then(async (response) => {
                     return res.status(200).send({
                         status: true,
-                        message: message.EMAIL_OPT
+                        message: MESSAGES.EMAIL_OPT
                     })
                 }).catch((error) => {
                     console.log(`\x1b[91m ${error} \x1b[91m`)
@@ -122,7 +121,7 @@ const forgotPasswordController = async (req, res) => {
         } else {
             return res.status(200).send({
                 status: false,
-                message: message.USER_NOT_VALID
+                message: MESSAGES.USER_NOT_VALID
             })
         }
     } catch (error) {
@@ -165,7 +164,7 @@ const resetPasswordController = async (req, res) => {
                     { where: { userId: matchFindOpt.userId } }).then(async (response) => {
                         return res.status(200).send({
                             status: true,
-                            message: message.CHANGE_PASSWORD
+                            message: MESSAGES.CHANGE_PASSWORD
                         })
                     }).catch((error) => {
                         console.log(`\x1b[91m ${error} \x1b[91m`)
@@ -177,7 +176,7 @@ const resetPasswordController = async (req, res) => {
             } else {
                 return res.status(200).send({
                     status: false,
-                    message: message.OTP_NOT_MATCH
+                    message: MESSAGES.OTP_NOT_MATCH
                 })
             }
 
@@ -190,7 +189,7 @@ const resetPasswordController = async (req, res) => {
                         { where: { userId: targetUser.userId } }).then(async (response) => {
                             return res.status(200).send({
                                 status: true,
-                                message: message.CHANGE_PASSWORD
+                                message: MESSAGES.CHANGE_PASSWORD
                             })
                         }).catch((error) => {
                             console.log(`\x1b[91m ${error} \x1b[91m`)
@@ -202,14 +201,14 @@ const resetPasswordController = async (req, res) => {
                 } else {
                     return res.status(200).send({
                         status: false,
-                        message: message.CURRENT_PASSWORD_NOT_VALID
+                        message: MESSAGES.CURRENT_PASSWORD_NOT_VALID
                     })
                 }
             })
         } else {
             return res.status(200).send({
                 status: false,
-                message: message.USER_NOT_VALID
+                message: MESSAGES.USER_NOT_VALID
             })
         }
     } catch (error) {

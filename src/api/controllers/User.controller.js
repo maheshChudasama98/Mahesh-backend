@@ -1,6 +1,6 @@
 const { Op, Sequelize, } = require("sequelize")
 const bcrypt = require('bcrypt');
-const message = require("../constants/messages")
+const MESSAGES = require("../constants/messages")
 const db = require("../models/index")
 
 const UserModel = db.UserModel
@@ -28,7 +28,7 @@ const userModifyController = async (req, res) => {
                 await UserModel.create(payloadBody).then(() => {
                     return res.status(200).send({
                         status: true,
-                        message: message.USER_CREATED
+                        message: MESSAGES.USER_CREATED
                     })
                 }).catch((error) => {
                     return res.status(200).send({
@@ -41,7 +41,7 @@ const userModifyController = async (req, res) => {
                 await UserModel.update(payloadBody, { where: { userId: findDuplicateUser.userId } }).then(() => {
                     return res.status(200).send({
                         status: true,
-                        message: message.USER_CREATED
+                        message: MESSAGES.USER_CREATED
                     })
                 }).catch((error) => {
                     return res.status(200).send({
@@ -52,7 +52,7 @@ const userModifyController = async (req, res) => {
             } else {
                 return res.status(200).send({
                     status: false,
-                    message: message.USER_ALREADY_REGISTERED
+                    message: MESSAGES.USER_ALREADY_REGISTERED
                 })
             }
         } else {
@@ -61,7 +61,7 @@ const userModifyController = async (req, res) => {
                 await UserModel.update(payloadBody, { where: { userId: payloadBody.userId } }).then(() => {
                     return res.status(200).send({
                         status: true,
-                        message: message.USER_UPDATE
+                        message: MESSAGES.USER_UPDATE
                     })
                 }).catch((error) => {
                     return res.status(200).send({
@@ -72,7 +72,7 @@ const userModifyController = async (req, res) => {
             } else {
                 return res.status(200).send({
                     status: false,
-                    message: message.USER_ALREADY_REGISTERED
+                    message: MESSAGES.USER_ALREADY_REGISTERED
                 })
             }
         }
@@ -101,7 +101,7 @@ const userDeleteController = async (req, res) => {
             }, { where: { userId: targetUser.userId } }).then(() => {
                 return res.status(200).send({
                     status: true,
-                    message: message.USER_DELETED
+                    message: MESSAGES.USER_DELETED
                 })
             }).catch((error) => {
                 return res.status(200).send({
@@ -113,7 +113,7 @@ const userDeleteController = async (req, res) => {
         } else {
             return res.status(200).send({
                 status: false,
-                message: message.USER_NOT_VALID
+                message: MESSAGES.USER_NOT_VALID
             })
         }
 

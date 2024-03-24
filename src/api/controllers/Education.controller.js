@@ -1,6 +1,6 @@
 const { Op, Sequelize, } = require("sequelize")
 const bcrypt = require('bcrypt');
-const MESSAGE = require("../constants/messages")
+const MESSAGES = require("../constants/messages")
 const db = require("../models")
 
 const UserModel = db.UserModel
@@ -17,7 +17,7 @@ const educationModifyController = async (req, res) => {
             await EducationModel.create(payloadBody).then(() => {
                 return res.status(200).send({
                     status: true,
-                    message: MESSAGE.EDUCATION_CREATED
+                    message: MESSAGES.EDUCATION_CREATED
                 })
             }).catch((error) => {
                 console.log(`\x1b[91m ${error} \x1b[91m`)
@@ -40,7 +40,7 @@ const educationModifyController = async (req, res) => {
                 await EducationModel.update(payloadBody, { where: { educationId: payloadBody?.educationId } }).then(() => {
                     return res.status(200).send({
                         status: true,
-                        message: MESSAGE.EDUCATION_UPDATED
+                        message: MESSAGES.EDUCATION_UPDATED
                     })
                 }).catch((error) => {
                     console.log(`\x1b[91m ${error} \x1b[91m`)
@@ -153,7 +153,7 @@ const educationFetchListController = async (req, res) => {
         return res.status(200).send({
             status: true,
             data: educationList,
-            message: MESSAGE.SUCCESS
+            message: MESSAGES.SUCCESS
         })
 
     } catch (error) {
@@ -186,7 +186,7 @@ const educationDeleteController = async (req, res) => {
             }, { where: { educationId: targetEducation.educationId } }).then(() => {
                 return res.status(200).send({
                     status: true,
-                    message: MESSAGE.EDUCATION_DELETED
+                    message: MESSAGES.EDUCATION_DELETED
                 })
             }).catch((error) => {
                 console.log(`\x1b[91m ${error} \x1b[91m`)
@@ -200,7 +200,7 @@ const educationDeleteController = async (req, res) => {
         } else {
             return res.status(200).send({
                 status: false,
-                message: MESSAGE.ERROR
+                message: MESSAGES.ERROR
             })
         }
 

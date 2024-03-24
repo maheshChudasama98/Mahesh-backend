@@ -1,6 +1,6 @@
 const bcrypt = require('bcrypt');
 const { Op, Sequelize, } = require("sequelize")
-const message = require("../constants/messages")
+const MESSAGES = require("../constants/messages")
 
 const db = require("../models/index")
 const UserModel = db.UserModel
@@ -97,7 +97,8 @@ const webProfileController = async (req, res) => {
 
         return res.status(200).send({
             status: true,
-            data: finalResult
+            data: finalResult,
+            message: MESSAGES.SUCCESS
         })
     } catch (error) {
         console.log(`\x1b[91m ${error} \x1b[91m`)

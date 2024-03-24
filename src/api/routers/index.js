@@ -6,11 +6,12 @@ module.exports = (app) => {
     // ------------ || Default route path  || ------------ //
     app.get("/", (req, res) => {
         try {
-            return res.status(200).send({ status: true, message: MESSAGES.DEFAULT_PATH })
+            return res.status(200).send(MESSAGES.DEFAULT_PATH)
         } catch (error) {
             return res.status(500).send({ status: false, message: error.message })
         }
     })
+
     require("./WebProfile.router")(app)
     require("./Auth.router")(app)
     require("./User.router")(app)
@@ -21,4 +22,10 @@ module.exports = (app) => {
     require("./Skills.router")(app)
     require("./Category.router")(app)
     require("./Timelog.router")(app)
+
+    // Money-view router
+    require("./Account.router")(app)
+    require("./AccountCategory.router")(app)
+    require("./SubCategory.router")(app)
+
 }

@@ -1,4 +1,4 @@
-const MESSAGE = require("../constants/messages")
+const MESSAGES = require("../constants/messages")
 const db = require("../models")
 const CompaniesModel = db.CompaniesModel
 
@@ -14,7 +14,7 @@ const companyModifyController = async (req, res) => {
             await CompaniesModel.create(payloadBody).then(() => {
                 return res.status(200).send({
                     status: true,
-                    message: MESSAGE.COMPANY_CREATED
+                    message: MESSAGES.COMPANY_CREATED
                 })
             }).catch((error) => {
                 console.log(`\x1b[91m ${error} \x1b[91m`)
@@ -36,7 +36,7 @@ const companyModifyController = async (req, res) => {
                 await CompaniesModel.update(payloadBody, { where: { companyId: payloadBody?.companyId } }).then(() => {
                     return res.status(200).send({
                         status: true,
-                        message: MESSAGE.COMPANY_UPDATED
+                        message: MESSAGES.COMPANY_UPDATED
                     })
                 }).catch((error) => {
                     console.log(`\x1b[91m ${error} \x1b[91m`)
@@ -76,7 +76,7 @@ const companyFetchListController = async (req, res) => {
         return res.status(200).send({
             status: true,
             data: companyList,
-            message: MESSAGE.SUCCESS
+            message: MESSAGES.SUCCESS
         })
 
     } catch (error) {
@@ -109,7 +109,7 @@ const companyDeleteController = async (req, res) => {
             }, { where: { companyId: targetCompany.companyId } }).then(() => {
                 return res.status(200).send({
                     status: true,
-                    message: MESSAGE.COMPANY_DELETED
+                    message: MESSAGES.COMPANY_DELETED
                 })
             }).catch((error) => {
                 console.log(`\x1b[91m ${error} \x1b[91m`)
@@ -121,7 +121,7 @@ const companyDeleteController = async (req, res) => {
         } else {
             return res.status(200).send({
                 status: false,
-                message: MESSAGE.ERROR
+                message: MESSAGES.ERROR
             })
         }
     } catch (error) {

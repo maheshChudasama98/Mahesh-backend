@@ -1,38 +1,39 @@
 require('dotenv').config();
 
 module.exports = (sequelize, DataTypes) => {
-    const ModelTable = sequelize.define('TimeLogs', {
-        timelogId: {
+    const ModelTable = sequelize.define('Counterparty', {
+        partyId: {
             type: DataTypes.INTEGER,
             autoIncrement: true,
             primaryKey: true,
             allowNull: false,
             unique: true
         },
-        categoryId: {
+        FullName: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
+        partyType: {
+            type: DataTypes.ENUM,
+            values: ['Creditor', 'Debtor', 'Both', 'Other'],
+            allowNull: false,
+        },
+        amount: {
             type: DataTypes.INTEGER,
             allowNull: false,
+            defaultValue: 0
         },
-        startTime: {
-            type: DataTypes.DATE,
-            allowNull: false,
+        address: {
+            type: DataTypes.STRING,
         },
-        endTime: {
-            type: DataTypes.DATE,
-            allowNull: false,
+        city: {
+            type: DataTypes.STRING,
         },
-        totalTime: {
-            type: DataTypes.TIME,
-            allowNull: false,
+        status: {
+            type: DataTypes.STRING,
         },
-        minutes: {
-            type: DataTypes.INTEGER,
-            allowNull: false,
-            defaultValue: 0,
-        },
-        details: {
+        imagePath: {
             type: DataTypes.STRING(2000),
-            allowNull: false,
         },
         createdByUserId: {
             type: DataTypes.INTEGER,
@@ -57,7 +58,7 @@ module.exports = (sequelize, DataTypes) => {
             defaultValue: sequelize.NOW,
         },
     }, {
-        modelName: 'Companies',
+        modelName: 'Counterparty',
         initialAutoIncrement: 1,
         timestamps: false,
     });

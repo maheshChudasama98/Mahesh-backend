@@ -1,6 +1,6 @@
 module.exports = {
-    // global messages 
-    DEFAULT_PATH: "Server is live",
+    // Global messages 
+    DEFAULT_PATH: "Welcome to our default server API",
     DUPLICATE: "Duplicate record",
     SUCCESS: "Successful",
     NOT_VALID: "Not valid",
@@ -63,4 +63,10 @@ module.exports = {
     TIMELOG_UPDATED: "Timelog update was successful!",
     TIMELOG_DELETED: "Timelog deleted was successful!",
     TIMELOG_DUPLICATE: "Timelog has already been available",
+
+    // Account controller messages
+    ACCOUNT_CREATED: "Account creation was a successful!",
+    ACCOUNT_UPDATED: "Account update was successful!",
+    ACCOUNT_DELETED: "Account deleted was successful!",
+    ACCOUNT_DUPLICATE: "Account has already been available",
 }

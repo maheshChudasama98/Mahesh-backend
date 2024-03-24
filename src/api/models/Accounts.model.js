@@ -1,37 +1,28 @@
-require('dotenv').config();
-
 module.exports = (sequelize, DataTypes) => {
-    const ModelTable = sequelize.define('TimeLogs', {
-        timelogId: {
+    const modelTable = sequelize.define('Accounts', {
+        accountId: {
             type: DataTypes.INTEGER,
             autoIncrement: true,
             primaryKey: true,
             allowNull: false,
             unique: true
         },
-        categoryId: {
+        accountName: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
+        startAmount: {
             type: DataTypes.INTEGER,
             allowNull: false,
+            defaultValue: 0
         },
-        startTime: {
-            type: DataTypes.DATE,
-            allowNull: false,
-        },
-        endTime: {
-            type: DataTypes.DATE,
-            allowNull: false,
-        },
-        totalTime: {
-            type: DataTypes.TIME,
-            allowNull: false,
-        },
-        minutes: {
+        currentAmount: {
             type: DataTypes.INTEGER,
             allowNull: false,
-            defaultValue: 0,
+            defaultValue: 0
         },
-        details: {
-            type: DataTypes.STRING(2000),
+        accountTypeId: {
+            type: DataTypes.INTEGER,
             allowNull: false,
         },
         createdByUserId: {
@@ -57,9 +48,9 @@ module.exports = (sequelize, DataTypes) => {
             defaultValue: sequelize.NOW,
         },
     }, {
-        modelName: 'Companies',
+        modelName: 'Accounts',
         initialAutoIncrement: 1,
         timestamps: false,
     });
-    return ModelTable
+    return modelTable
 }

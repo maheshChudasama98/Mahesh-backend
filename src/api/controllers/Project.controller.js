@@ -1,5 +1,5 @@
 const { Op, Sequelize, } = require("sequelize")
-const MESSAGE = require("../constants/messages")
+const MESSAGES = require("../constants/messages")
 const db = require("../models")
 const ProjectsModel = db.ProjectsModel
 
@@ -14,7 +14,7 @@ const projectModifyController = async (req, res) => {
             await ProjectsModel.create(payloadBody).then(() => {
                 return res.status(200).send({
                     status: true,
-                    message: MESSAGE.PROJECT_CREATED
+                    message: MESSAGES.PROJECT_CREATED
                 })
             }).catch((error) => {
                 return res.status(200).send({
@@ -35,7 +35,7 @@ const projectModifyController = async (req, res) => {
                 await ProjectsModel.update(payloadBody, { where: { projectId: payloadBody?.projectId } }).then(() => {
                     return res.status(200).send({
                         status: true,
-                        message: MESSAGE.PROJECT_UPDATED
+                        message: MESSAGES.PROJECT_UPDATED
                     })
                 }).catch((error) => {
                     return res.status(200).send({
@@ -73,7 +73,7 @@ const projectFetchListController = async (req, res) => {
         return res.status(200).send({
             status: true,
             data: projectList,
-            message: MESSAGE.SUCCESS
+            message: MESSAGES.SUCCESS
         })
 
     } catch (error) {
@@ -105,7 +105,7 @@ const projectDeleteController = async (req, res) => {
             }, { where: { projectId: targetProject.projectId } }).then(() => {
                 return res.status(200).send({
                     status: true,
-                    message: MESSAGE.PROJECT_DELETED
+                    message: MESSAGES.PROJECT_DELETED
                 })
             }).catch((error) => {
                 return res.status(200).send({
@@ -116,7 +116,7 @@ const projectDeleteController = async (req, res) => {
         } else {
             return res.status(200).send({
                 status: false,
-                message: MESSAGE.ERROR
+                message: MESSAGES.ERROR
             })
         }
     } catch (error) {

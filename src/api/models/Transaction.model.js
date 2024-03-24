@@ -1,51 +1,41 @@
-require('dotenv').config();
-
 module.exports = (sequelize, DataTypes) => {
-    const ModelTable = sequelize.define('TimeLogs', {
-        timelogId: {
+    const modelTable = sequelize.define('Transaction', {
+        transactionId: {
             type: DataTypes.INTEGER,
             autoIncrement: true,
             primaryKey: true,
             allowNull: false,
             unique: true
         },
+        transactionType: {
+            type: DataTypes.ENUM,
+            values: ['Income', 'Expense', 'Transfer'],
+            allowNull: false,
+        },
+        amount: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            defaultValue: 0
+        },
+        lastAmount: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            defaultValue: 0
+        },
+        accountId: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+        },
         categoryId: {
             type: DataTypes.INTEGER,
             allowNull: false,
         },
-        startTime: {
-            type: DataTypes.DATE,
-            allowNull: false,
-        },
-        endTime: {
-            type: DataTypes.DATE,
-            allowNull: false,
-        },
-        totalTime: {
-            type: DataTypes.TIME,
-            allowNull: false,
-        },
-        minutes: {
+        subCategoryId: {
             type: DataTypes.INTEGER,
-            allowNull: false,
-            defaultValue: 0,
-        },
-        details: {
-            type: DataTypes.STRING(2000),
             allowNull: false,
         },
         createdByUserId: {
             type: DataTypes.INTEGER,
-            allowNull: false,
-        },
-        isActive: {
-            type: DataTypes.BOOLEAN,
-            defaultValue: true,
-            allowNull: false,
-        },
-        isDeleted: {
-            type: DataTypes.BOOLEAN,
-            defaultValue: false,
             allowNull: false,
         },
         createdAt: {
@@ -57,9 +47,9 @@ module.exports = (sequelize, DataTypes) => {
             defaultValue: sequelize.NOW,
         },
     }, {
-        modelName: 'Companies',
+        modelName: 'Transaction',
         initialAutoIncrement: 1,
         timestamps: false,
     });
-    return ModelTable
+    return modelTable
 }

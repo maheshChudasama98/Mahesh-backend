@@ -1,21 +1,23 @@
 const { Op, Sequelize, } = require("sequelize")
-const bcrypt = require('bcrypt');
 const MESSAGES = require("../constants/messages")
-const db = require("../models");
+const db = require("../models")
 
-const CategoryModel = db.CategoryModel
-const TimeLogsModel = db.TimeLogsModel
+const AccountsModel = db.AccountsModel
+const MainCategoryModel = db.MainCategoryModel
+const SubCategoryModel = db.SubCategoryModel
+const ManyCategory = db.ManyCategory
 
-// ------------ || Category Create and Modify Api controller   || ------------ //
-const categoryModifyController = async (req, res) => {
+// ------------ || Account category Create and Modify Api controller   || ------------ //
+const AccountCategoryModifyController = async (req, res) => {
     try {
         const payloadBody = req.body
         const payloadUser = req.user
         payloadBody.createdByUserId = payloadUser.userId
 
-        const findDuplicateCategory = await CategoryModel.findOne({
+        const findDuplicateCategory = await MainCategoryModel.findOne({
             where: {
                 categoryName: payloadBody?.categoryName,
+                createdByUserId: payloadBody?.createdByUserId
             },
             raw: true
         });
@@ -25,7 +27,7 @@ const categoryModifyController = async (req, res) => {
             payloadBody.updatedAt = new Date
 
             if (!findDuplicateCategory?.categoryId) {
-                await CategoryModel.create(payloadBody).then(() => {
+                await MainCategoryModel.create(payloadBody).then(() => {
                     return res.status(200).send({
                         status: true,
                         message: MESSAGES.CATEGORY_CREATED
@@ -38,11 +40,11 @@ const categoryModifyController = async (req, res) => {
                 })
             } else if (findDuplicateCategory?.categoryId && findDuplicateCategory.isDeleted == true) {
                 payloadBody.isDeleted = false
-                await CategoryModel.update(payloadBody, { where: { categoryId: findDuplicateCategory.categoryId } }).then(() => {
+                await MainCategoryModel.update(payloadBody, { where: { categoryId: findDuplicateCategory.categoryId } }).then(() => {
                     return res.status(200).send({
                         status: true,
                         message: MESSAGES.CATEGORY_CREATED
-                    })
+                    })  
                 }).catch((error) => {
                     return res.status(200).send({
                         status: false,
@@ -57,12 +59,11 @@ const categoryModifyController = async (req, res) => {
             }
         } else {
             if ((findDuplicateCategory?.categoryId && findDuplicateCategory.categoryId == payloadBody.categoryId && findDuplicateCategory.isDeleted == false) || (!findDuplicateCategory?.categoryId)) {
-
                 const payloadUser = req.user
                 payloadBody.createdByUserId = payloadUser.userId
 
                 payloadBody.updatedAt = new Date
-                await CategoryModel.update(payloadBody, { where: { categoryId: payloadBody.categoryId } }).then(() => {
+                await MainCategoryModel.update(payloadBody, { where: { categoryId: payloadBody.categoryId } }).then(() => {
                     return res.status(200).send({
                         status: true,
                         message: MESSAGES.CATEGORY_UPDATED
@@ -80,6 +81,7 @@ const categoryModifyController = async (req, res) => {
                 })
             }
         }
+
     } catch (error) {
         return res.status(500).send({
             status: false,
@@ -88,13 +90,13 @@ const categoryModifyController = async (req, res) => {
     }
 }
 
-// ------------ || Category as user list api controller   || ------------ //
-const categoryFetchListController = async (req, res) => {
+// ------------ || Account category as user list api controller   || ------------ //
+const AccountCategoryFetchListController = async (req, res) => {
     try {
         const query = {
             isDeleted: false
         }
-        const categoryList = await CategoryModel.findAll({
+        const categoryList = await MainCategoryModel.findAll({
             where: query,
             order: [
                 ['categoryName', 'ASC']
@@ -116,27 +118,25 @@ const categoryFetchListController = async (req, res) => {
     }
 }
 
-// ------------ || Category Delete api controller   || ------------ //
-const categoryDeleteController = async (req, res) => {
+// ------------ || Account category Delete api controller   || ------------ //
+const AccountCategoryDeleteController = async (req, res) => {
     try {
         const payloadParam = req.params
         const payloadUser = req.user
 
-        const findTimeLogCategory = await TimeLogsModel.findOne({
+        const findCategory = await ManyCategory.findOne({
             where: {
-                isDeleted: false,
                 categoryId: payloadParam.id,
-                createdByUserId: payloadUser.userId,
             },
             raw: true
         })
-        if (findTimeLogCategory?.timelogId) {
+        if (findCategory?.id) {
             return res.status(200).send({
                 status: false,
                 message: MESSAGES.CATEGORY_TIMELOG_ASSOCIATED
             })
         }
-        const targetCategory = await CategoryModel.findOne({
+        const targetCategory = await MainCategoryModel.findOne({
             where: {
                 isDeleted: false,
                 categoryId: payloadParam.id,
@@ -145,7 +145,7 @@ const categoryDeleteController = async (req, res) => {
             raw: true
         })
         if (targetCategory?.categoryId) {
-            await CategoryModel.update({
+            await MainCategoryModel.update({
                 isDeleted: true
             }, { where: { categoryId: targetCategory.categoryId } }).then(() => {
                 return res.status(200).send({
@@ -177,8 +177,8 @@ const categoryDeleteController = async (req, res) => {
 }
 
 module.exports = {
-    categoryModifyController,
-    categoryFetchListController,
-    categoryDeleteController
+    AccountCategoryModifyController,
+    AccountCategoryFetchListController,
+    AccountCategoryDeleteController
 }
 

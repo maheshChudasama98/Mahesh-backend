@@ -1,6 +1,6 @@
 const { Op, Sequelize, } = require("sequelize")
 const bcrypt = require('bcrypt');
-const MESSAGE = require("../constants/messages")
+const MESSAGES = require("../constants/messages")
 const db = require("../models")
 
 const UserModel = db.UserModel
@@ -17,7 +17,7 @@ const experienceModifyController = async (req, res) => {
             await ExperienceModel.create(payloadBody).then(() => {
                 return res.status(200).send({
                     status: true,
-                    message: MESSAGE.EXPERIENCE_CREATED
+                    message: MESSAGES.EXPERIENCE_CREATED
                 })
             }).catch((error) => {
                 return res.status(200).send({
@@ -39,7 +39,7 @@ const experienceModifyController = async (req, res) => {
                 await ExperienceModel.update(payloadBody, { where: { experienceId: payloadBody?.experienceId } }).then(() => {
                     return res.status(200).send({
                         status: true,
-                        message: MESSAGE.EXPERIENCE_UPDATED
+                        message: MESSAGES.EXPERIENCE_UPDATED
                     })
                 }).catch((error) => {
 
@@ -80,7 +80,7 @@ const experienceFetchListController = async (req, res) => {
         return res.status(200).send({
             status: true,
             data: experienceList,
-            message: MESSAGE.SUCCESS
+            message: MESSAGES.SUCCESS
         })
 
     } catch (error) {
@@ -112,7 +112,7 @@ const experienceDeleteController = async (req, res) => {
             }, { where: { experienceId: targetExperience.experienceId } }).then(() => {
                 return res.status(200).send({
                     status: true,
-                    message: MESSAGE.EXPERIENCE_DELETED
+                    message: MESSAGES.EXPERIENCE_DELETED
                 })
             }).catch((error) => {
                 return res.status(200).send({
@@ -124,7 +124,7 @@ const experienceDeleteController = async (req, res) => {
         } else {
             return res.status(200).send({
                 status: false,
-                message: MESSAGE.ERROR
+                message: MESSAGES.ERROR
             })
         }
 

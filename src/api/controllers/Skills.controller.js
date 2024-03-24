@@ -1,4 +1,4 @@
-const MESSAGE = require("../constants/messages")
+const MESSAGES = require("../constants/messages")
 const db = require("../models")
 const SkillsModel = db.SkillsModel
 
@@ -13,7 +13,7 @@ const skillModifyController = async (req, res) => {
             await SkillsModel.create(payloadBody).then(() => {
                 return res.status(200).send({
                     status: true,
-                    message: MESSAGE.SKILL_CREATED
+                    message: MESSAGES.SKILL_CREATED
                 })
             }).catch((error) => {
                 return res.status(200).send({
@@ -34,7 +34,7 @@ const skillModifyController = async (req, res) => {
                 await SkillsModel.update(payloadBody, { where: { skillId: payloadBody?.skillId } }).then(() => {
                     return res.status(200).send({
                         status: true,
-                        message: MESSAGE.SKILL_UPDATED
+                        message: MESSAGES.SKILL_UPDATED
                     })
                 }).catch((error) => {
                     return res.status(200).send({
@@ -77,7 +77,7 @@ const skillFetchListController = async (req, res) => {
         return res.status(200).send({
             status: true,
             data: skillList,
-            message: MESSAGE.SUCCESS
+            message: MESSAGES.SUCCESS
         })
 
     } catch (error) {
@@ -109,7 +109,7 @@ const skillDeleteController = async (req, res) => {
             }, { where: { skillId: targetSkill.skillId } }).then(() => {
                 return res.status(200).send({
                     status: true,
-                    message: MESSAGE.SKILL_DELETED
+                    message: MESSAGES.SKILL_DELETED
                 })
             }).catch((error) => {
                 return res.status(200).send({
@@ -121,7 +121,7 @@ const skillDeleteController = async (req, res) => {
         } else {
             return res.status(200).send({
                 status: false,
-                message: MESSAGE.ERROR
+                message: MESSAGES.ERROR
             })
         }
 
